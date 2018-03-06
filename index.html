@@ -1,0 +1,30 @@
+<!doctype html>
+<html ng-app="testApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <h2>People Search</h2>
+    <div ng-controller="SearchController as ctrl">
+      <div ng-if="!ctrl.isEditing">
+      <input ng-model="ctrl.nameSearch" ng-change="ctrl.search()"/>
+      <ul class="unstyled">
+        <li ng-repeat="person in ctrl.people" ng-if="!person.hidden">
+          <label class="checkbox" ng-click="ctrl.selectPerson(person.id)">
+            <span class="">{{person.first}} {{person.last}}</span>
+          </label>
+        </li>
+      </ul>
+      </div>
+      <form>
+          <input ng-model="ctrl.person.first" id="first"/>
+          <input ng-model="ctrl.person.last" id="last"/>
+          <input ng-model="ctrl.person.email" id="email"/>
+          <input ng-model="ctrl.person.phone" id="phone"/>
+      </form>
+      <button ng-if="ctrl.isEditing" ng-click="ctrl.back()">Back</button>
+    </div>
+  </body>
+</html>
