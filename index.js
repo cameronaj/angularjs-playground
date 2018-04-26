@@ -60,7 +60,7 @@ angular.module('testApp', []).controller('SearchController', function()
         last: name[1],
         email: "",
         phone: "",
-        hidden: false
+        active: true
       };
       
       // Add new person to the people list
