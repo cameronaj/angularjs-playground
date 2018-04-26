@@ -16,20 +16,27 @@
           
           <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text"><span class="badge">{{ctrl.remaining}}/{{ctrl.people.length}}</span></span>
+              <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                    {{ ctrl.viewInactive ? ctrl.displayList.length : ctrl.displayActiveCount }}
+                    /
+                    {{ ctrl.viewInactive ? ctrl.people.length : ctrl.totalActiveCount }}
+              </button>
+              <div class="dropdown-menu">
+                <a class="list-group-item" href="javascript:;" ng-class="{active: ctrl.viewInactive}" ng-click="ctrl.toggleInactive()">Toggle Deleted</a>
+              </div>
             </div>
             
-            <input class="form-control" ng-model="ctrl.nameSearch" ng-change="ctrl.search()"/>
+            <input id="search-input" class="form-control" ng-model="ctrl.nameSearch" ng-change="ctrl.search()"/>
             
             <div class="input-group-btn">
-              <button class="btn btn-default" ng-click="ctrl.clear()">Clear</button>
+              <button class="btn btn-default" ng-click="ctrl.clearSearch()">Clear</button>
             </div>
           </div>
           
         
-          <div class="list-group" id="userList" ng-repeat="person in ctrl.people">
-            <a class="list-group-item" id="{{person.id}}" ng-click="ctrl.selectPerson(person.id)">
-                  {{person.first}} {{person.last}}
+          <div class="list-group" id="userList" ng-repeat="person in ctrl.displayList">
+            <a class="list-group-item" id="{{ person.id }}" ng-if="person.active || ctrl.viewInactive" ng-click="ctrl.selectPerson(person.id)">
+                  {{ person.first }} {{ person.last }}
             </a>
           </div>
           
@@ -40,7 +47,7 @@
           
           <form>
               <div class="form-group">
-                <label for="userId">ID: {{ctrl.person.id}}</label>
+                <label for="userId">ID: {{ ctrl.person.id }}</label>
               </div>
               <div class="form-group">
                 <label for="first">First Name</label>
@@ -57,6 +64,16 @@
               <div class="form-group">
                 <label for="phone">Phone #</label>
                 <input class="form-control" ng-model="ctrl.person.phone" id="phone"/>  
+              </div>
+              <div class="form-group">
+                <label class="radio-inline">
+                  <input type="radio" ng-model="ctrl.person.active" ng-value="true" ng-change="ctrl.updateActiveCount(1)" name="isActive" />
+                  Active
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" ng-model="ctrl.person.active" ng-value="false" ng-change="ctrl.updateActiveCount(-1)" name="isActive" />
+                  Inactive
+                </label>
               </div>
           </form>
           
